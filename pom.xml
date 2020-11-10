@@ -35,7 +35,7 @@
         <swagger.annotations>1.5.23</swagger.annotations>
         <swagger.codegen.version>4.3.1</swagger.codegen.version>
         <swagger.name>TaskApi</swagger.name>
-        <swagger.package>dev.neurox.services.island-reservation-service</swagger.package>
+        <swagger.package>dev.neurox.services.island_reservation_service</swagger.package>
     </properties>
 
     <dependencyManagement>
