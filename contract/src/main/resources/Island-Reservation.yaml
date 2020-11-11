@@ -3,6 +3,7 @@ info:
   description: 'Backend to manage Island Reservations'
   version: 1.0.0
   title: Island Reservation API
+
 paths:
   /reservations:
     post:
@@ -43,6 +44,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Reservation'
+
+  /reservations/{resevation_id}/{transaction}:
+    put:
+      tags:
+        - Reservations
+      summary: Modifies an existing reservation
+      operationId: updateReservation
+      parameters:
+        - in: path
+          name: resevation_id
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: transaction
+          required: true
+          schema:
+            type: string
+            enum: [ MODIFY, CANCEL ]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+      responses:
+        '200':
+          description: 'Successfully updated reservation.'
+
   /campsite/calendar/dates:
     get:
       tags:
@@ -73,36 +103,6 @@ paths:
                 items:
                   type: string
                   format: date
-
-
-  /reservations/{resevation_id}/{transaction}:
-    put:
-      tags:
-        - Reservations
-      summary: Modifies an existing reservation
-      operationId: updateReservation
-      parameters:
-        - in: path
-          name: resevation_id
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: transaction
-          required: true
-          schema:
-            type: string
-            enum: [ MODIFY, CANCEL ]
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Reservation'
-      responses:
-        '200':
-          description: 'Successfully updated reservation.'
-
 
 components:
   schemas:
