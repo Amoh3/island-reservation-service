@@ -117,9 +117,11 @@ components:
         client:
           $ref: '#/components/schemas/Client'
         startDate:
-          type: date
+          type: string
+          format: date
         endDate:
-          type: date
+          type: string
+          format: date
 
     Client:
       required: [
