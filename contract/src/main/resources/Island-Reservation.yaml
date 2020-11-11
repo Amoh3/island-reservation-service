@@ -1,0 +1,109 @@
+openapi: '3.0.0'
+info:
+  description: 'Island Reservation API'
+  version: 1.0.0
+  title: Island Reservation API
+tags:
+  - name: Island Reservation API
+    description: 'Backend For Island Reservation'
+paths:
+  /reservations:
+    post:
+      summary: Create a new reservation
+      operationId: addReservation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReservation'
+      responses:
+        '200':
+
+  /reservations/{resevation_id}:
+    get:
+      summary: gets an existing reservation
+      operationId: getReservation
+      parameters:
+        - in: path
+          name: resevation_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+
+  /reservations/{resevation_id}/{transaction}:
+    put:
+      summary: Modifies an existing reservation
+      operationId: updateReservation
+      parameters:
+        - in: path
+          name: resevation_id
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: transaction
+          required: true
+          schema:
+            type: string
+            enum:
+              - MODIFY
+              - CANCEL
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+      responses:
+        '200':
+
+components:
+  schemas:
+    Reservation:
+      required: [
+          "client",
+          "startDate",
+          "endDate"
+      ]
+      type: object
+      properties:
+        client:
+          $ref: '#/components/schemas/Client'
+        startDate:
+          type: date
+        endDate:
+          type: date
+
+    Client:
+      required: [
+          "email"
+      ]
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: user@example.com
+        firstName:
+          type: string
+        lastName:
+          type: string
+
+    Error:
+      required: [
+          "code"
+      ]
+      type: object
+      properties:
+        code:
+          enum:
+            - IR00
+            - IR01
+            - IR02
+            - IR03
+            - IR04
+        message:
+          type: string
