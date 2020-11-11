@@ -1,14 +1,13 @@
 openapi: '3.0.0'
 info:
-  description: 'Island Reservation API'
+  description: 'Backend to manage Island Reservations'
   version: 1.0.0
   title: Island Reservation API
-tags:
-  - name: Island Reservation API
-    description: 'Backend For Island Reservation'
 paths:
   /reservations:
     post:
+      tags:
+        - Reservations
       summary: Create a new reservation
       operationId: addReservation
       requestBody:
@@ -16,14 +15,19 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateReservation'
+              $ref: '#/components/schemas/Reservation'
       responses:
         '200':
           description: 'Successfully created reservation.'
-
+          content:
+            application/json:
+              schema:
+                type: string
 
   /reservations/{resevation_id}:
     get:
+      tags:
+        - Reservations
       summary: gets an existing reservation
       operationId: getReservation
       parameters:
@@ -39,9 +43,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Reservation'
+  /campsite/calendar/dates:
+    get:
+      tags:
+        - Calendar
+      summary: get campsite availability
+      parameters:
+        - in: query
+          name: status
+          required: true
+          schema:
+            type: string
+            enum: [ AVAILABLE, NOT_AVAILABLE ]
+        - in: query
+          name: range
+          required: true
+          schema:
+            type: string
+            enum: [ WEEK, MONTH ]
+            default: MONTH
+
+      responses:
+        '200':
+          description: 'Successfully retrieved reservation'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: date
+
 
   /reservations/{resevation_id}/{transaction}:
     put:
+      tags:
+        - Reservations
       summary: Modifies an existing reservation
       operationId: updateReservation
       parameters:
@@ -55,9 +92,7 @@ paths:
           required: true
           schema:
             type: string
-            enum:
-              - MODIFY
-              - CANCEL
+            enum: [ MODIFY, CANCEL ]
       requestBody:
         required: false
         content:
@@ -108,11 +143,7 @@ components:
       type: object
       properties:
         code:
-          enum:
-            - IR00
-            - IR01
-            - IR02
-            - IR03
-            - IR04
+          type: string
+          enum: [ IR00,IR01,IR02,IR03 ]
         message:
           type: string
