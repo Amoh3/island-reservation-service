@@ -10,7 +10,7 @@ paths:
       tags:
         - Reservations
       summary: Create a new reservation
-      operationId: addReservation
+      operationId: createReservation
       requestBody:
         required: true
         content:
@@ -24,8 +24,24 @@ paths:
             application/json:
               schema:
                 type: string
+                pattern: RESERVATION_X_PATTERN  #todo
+                example: 'RESERVATION_ID'
+        '400':
+          description: 'Bad request.'
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'IRP1/IRP2'
+        '403':
+          description: 'Forbidden request'
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'IRP3/IRP4'
 
-  /reservations/{resevation_id}:
+  /reservations/{reservation_id}:
     get:
       tags:
         - Reservations
@@ -33,10 +49,11 @@ paths:
       operationId: getReservation
       parameters:
         - in: path
-          name: resevation_id
+          name: reservation_id
           required: true
           schema:
             type: string
+            pattern: RESERVATION_X_PATTERN #todo
       responses:
         '200':
           description: 'Successfully retrieved reservation'
@@ -44,8 +61,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Reservation'
+        '404':
+          description: 'Reservation not found'
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'IRG1'
 
-  /reservations/{resevation_id}/{transaction}:
+  /reservations/{reservation_id}/{transaction}:
     put:
       tags:
         - Reservations
@@ -53,10 +77,11 @@ paths:
       operationId: updateReservation
       parameters:
         - in: path
-          name: resevation_id
+          name: reservation_id
           required: true
           schema:
             type: string
+            pattern: RESERVATION_X_PATTERN #todo
         - in: path
           name: transaction
           required: true
@@ -72,30 +97,50 @@ paths:
       responses:
         '200':
           description: 'Successfully updated reservation.'
+        '206':
+          description: 'Reservation Partially updated; Could not update client as another reservation is using the
+          current email'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                example: 'IRPU1,IRPU2,IRPU3,IRPU4,IRPU5'
+        '403':
+          description: 'Forbidden IRPU6 '
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'IRPU6'
+        '404':
+          description: 'Reservation not found IRPU7'
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'IRPU7'
 
   /campsite/calendar/dates:
     get:
       tags:
         - Calendar
       summary: get campsite availability
+      operationId: getCampsiteAvailability
       parameters:
         - in: query
-          name: status
-          required: true
+          name: available
           schema:
-            type: string
-            enum: [ AVAILABLE, NOT_AVAILABLE ]
+            type: boolean
+            default: true
         - in: query
           name: range
-          required: true
           schema:
             type: string
             enum: [ WEEK, MONTH ]
-            default: MONTH
-
       responses:
         '200':
-          description: 'Successfully retrieved reservation'
+          description: 'Successfully retrieved reservations'
           content:
             application/json:
               schema:
@@ -119,9 +164,11 @@ components:
         startDate:
           type: string
           format: date
+          example: '2020-01-01'
         endDate:
           type: string
           format: date
+          example: '2020-02-01'
 
     Client:
       required: [
@@ -131,21 +178,28 @@ components:
       properties:
         email:
           type: string
-          format: email
-          example: user@example.com
+          pattern: "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$"
+          example: 'my_email@myorganization.ca'
         firstName:
           type: string
+          example: 'John'
         lastName:
           type: string
+          example: 'Smith'
 
     Error:
-      required: [
-          "code"
-      ]
-      type: object
-      properties:
-        code:
-          type: string
-          enum: [ IR00,IR01,IR02,IR03 ]
-        message:
-          type: string
+      type: string
+      enum: [ IRP1,IRP2,IRP3,IRP4,IRG1,IRPU1,IRPU2,IRPU3,IRPU4,IRPU5,IRPU6,IRPU7 ]
+      description: |
+         * `IRP1` - Reservation is for more than 3 days
+         * `IRP2` - Start & End dates are not with in a month
+         * `IRP3` - Cannot reserve desired time range, already reserved by someone else
+         * `IRP4` - Cannot reserve, client already has another existing reservation
+         * `IRG1` - Cannot find a reservation with that ID
+         * `IRPU1` - Reservation is for more than 3 days
+         * `IRPU2` - Start & End dates are not with in a month
+         * `IRPU3` - Can not modify an empty reservation
+         * `IRPU4` - Request body has to be empty to cancel the reservation
+         * `IRPU5` - Nothing to modify
+         * `IRPU6` - Cannot reserve desired time range, already reserved by someone else
+         * `IRPU7` - Cannot find a reservation with that ID to modify or cancel
