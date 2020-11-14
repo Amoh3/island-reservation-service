@@ -24,8 +24,8 @@ paths:
             application/json:
               schema:
                 type: string
-                pattern: RESERVATION_X_PATTERN  #todo
-                example: 'RESERVATION_ID'
+                pattern: "[A-Z0-9]{8}"
+                example: 'AZ123456'
         '400':
           description: 'Bad request.'
           content:
@@ -53,7 +53,8 @@ paths:
           required: true
           schema:
             type: string
-            pattern: RESERVATION_X_PATTERN #todo
+            pattern: "[A-Z0-9]{8}"
+            example: "AZ123456"
       responses:
         '200':
           description: 'Successfully retrieved reservation'
@@ -81,7 +82,8 @@ paths:
           required: true
           schema:
             type: string
-            pattern: RESERVATION_X_PATTERN #todo
+            pattern: "[A-Z0-9]{8}"
+            example: "AZ123456"
         - in: path
           name: transaction
           required: true
@@ -97,14 +99,12 @@ paths:
       responses:
         '200':
           description: 'Successfully updated reservation.'
-        '206':
-          description: 'Reservation Partially updated; Could not update client as another reservation is using the
-          current email'
         '400':
           description: 'Bad request'
           content:
             application/json:
               schema:
+                type: string
                 example: 'IRPU1,IRPU2,IRPU3,IRPU4,IRPU5'
         '403':
           description: 'Forbidden IRPU6 '
@@ -172,14 +172,17 @@ components:
 
     Client:
       required: [
-          "email"
+          "email",
+          "firstName",
+          "lastName"
       ]
       type: object
       properties:
         email:
           type: string
-          pattern: "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$"
-          example: 'my_email@myorganization.ca'
+          format: email
+          example: my_email@myorganization.ca
+          pattern: '[\w-\.]+@([\w-]+\.)+[\w-]{2,4}'
         firstName:
           type: string
           example: 'John'

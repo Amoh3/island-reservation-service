@@ -17,7 +17,7 @@
     </build>
 
     <properties>
-        <start-class>dev.neurox.services.island_reservation_service.api.SpringBootAppKt</start-class>
+        <start-class>dev.neurox.services.island_reservation_service.api.SpringBootApp</start-class>
     </properties>
 
     <dependencies>
