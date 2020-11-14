@@ -23,7 +23,7 @@ class ReservationsController(val reservationRepository: ReservationRepository) :
     }
 
     fun getNewReservationNumber(): String {
-        var reservationNumber: String = generatorReservationNumber(8);
+        var reservationNumber: String = generatorReservationNumber(8)
         while(reservationRepository.getReservation(reservationNumber) != null){
             reservationNumber = generatorReservationNumber(8)
         }
@@ -44,7 +44,7 @@ class ReservationsController(val reservationRepository: ReservationRepository) :
                 r.append(element)
                 size++
                 if(size == length){
-                    break;
+                    break
                 }
             }
         }

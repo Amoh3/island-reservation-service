@@ -6,11 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface IReservationRepository : MongoRepository<Reservation,String> {
-
-}
+interface IReservationRepository : MongoRepository<Reservation,String>
 
 @Repository
-interface IIslandCalendarRepository : MongoRepository<IslandCalendar,String> {
-
-}
+interface IIslandCalendarRepository : MongoRepository<IslandCalendar,String>

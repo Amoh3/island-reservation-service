@@ -4,10 +4,7 @@ import dev.neurox.services.island_reservation_service.repository.model.IslandCal
 import org.slf4j.LoggerFactory
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.find
-import org.springframework.data.mongodb.core.query.Query
-import org.springframework.data.mongodb.core.query.gte
-import org.springframework.data.mongodb.core.query.inValues
-import org.springframework.data.mongodb.core.query.lte
+import org.springframework.data.mongodb.core.query.*
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 import java.util.stream.Collectors
@@ -36,8 +33,8 @@ class IslandCalendarRepository(private val repo: IIslandCalendarRepository, priv
     }
 
     fun findReservedDays(startDate: LocalDate, endDate: LocalDate): List<LocalDate> {
-        val query = Query().addCriteria(IslandCalendar::reservedDay gte (startDate))
-                .addCriteria(IslandCalendar::reservedDay lte (endDate))
+        val query = Query(Criteria().andOperator(IslandCalendar::reservedDay gte (startDate),
+                IslandCalendar::reservedDay lte (endDate)))
         val reservedDays: List<IslandCalendar> = mongoTemplate.find(query)
         return reservedDays.map { it.reservedDay }
     }

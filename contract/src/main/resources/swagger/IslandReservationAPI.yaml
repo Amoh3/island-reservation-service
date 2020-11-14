@@ -136,8 +136,7 @@ paths:
         - in: query
           name: range
           schema:
-            type: string
-            enum: [ WEEK, MONTH ]
+            $ref: '#/components/schemas/Range'
       responses:
         '200':
           description: 'Successfully retrieved reservations'
@@ -189,6 +188,10 @@ components:
         lastName:
           type: string
           example: 'Smith'
+
+    Range:
+      type: string
+      enum: [ WEEK, MONTH ]
 
     Error:
       type: string

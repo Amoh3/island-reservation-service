@@ -62,6 +62,4 @@ class SwaggerConfig {
 
 @Configuration
 @ComponentScan("dev.neurox.services.island_reservation_service")
-class SpringConfig {
-
-}
+class SpringConfig
