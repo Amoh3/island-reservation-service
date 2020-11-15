@@ -29,7 +29,7 @@ enum class ReservationStatus {
 }
 
 data class Client(
-        var firstName: String?,
-        var lastName: String?,
+        var firstName: String,
+        var lastName: String,
         var email: String
 )

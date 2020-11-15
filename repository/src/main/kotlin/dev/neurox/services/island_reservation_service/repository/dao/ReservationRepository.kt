@@ -74,10 +74,10 @@ class ReservationRepository(
 
     private fun getList(startDate: LocalDate, endDate: LocalDate): ArrayList<LocalDate> {
         val dates: ArrayList<LocalDate> = ArrayList()
-        val date: LocalDate = startDate
+        var date: LocalDate = startDate
         while (date.isBefore(endDate) || date.isEqual(endDate)) {
             dates.add(date)
-            date.plusDays(1)
+            date = date.plusDays(1)
         }
         return dates
     }

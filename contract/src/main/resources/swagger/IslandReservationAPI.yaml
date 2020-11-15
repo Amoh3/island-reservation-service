@@ -23,23 +23,79 @@ paths:
           content:
             application/json:
               schema:
-                type: string
-                pattern: "[A-Z0-9]{8}"
-                example: 'AZ123456'
+                $ref: '#/components/schemas/NewReservationResponse'
         '400':
           description: 'Bad request.'
           content:
             application/json:
               schema:
-                type: string
-                example: 'IRP1/IRP2'
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2020-11-14T22:31:42.035+00:00"
+                  status:
+                    type: integer
+                    example: 400
+                  error:
+                    type: string
+                    example: "Bad Request"
+                  message:
+                    type: array
+                    items:
+                      type: string
+                  path:
+                    type: string
+                    example: "/reservations"
         '403':
           description: 'Forbidden request'
           content:
             application/json:
               schema:
-                type: string
-                example: 'IRP3/IRP4'
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2020-11-14T22:31:42.035+00:00"
+                  status:
+                    type: integer
+                    example: 403
+                  error:
+                    type: string
+                    example: "Forbidden Request"
+                  message:
+                    type: array
+                    items:
+                      type: string
+                  path:
+                    type: string
+                    example: "/reservations"
+        '500':
+          description: 'Internal Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2020-11-14T22:31:42.035+00:00"
+                  status:
+                    type: integer
+                    example: 500
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+                  message:
+                    type: array
+                    items:
+                      type: string
+                  path:
+                    type: string
+                    example: "/reservations"
 
   /reservations/{reservation_id}:
     get:
@@ -67,8 +123,49 @@ paths:
           content:
             application/json:
               schema:
-                type: string
-                example: 'IRG1'
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2020-11-14T22:31:42.035+00:00"
+                  status:
+                    type: integer
+                    example: 404
+                  error:
+                    type: string
+                    example: "Not Found"
+                  message:
+                    type: array
+                    items:
+                      type: string
+                  path:
+                    type: string
+                    example: "/reservations/{reservation_id}"
+        '500':
+          description: 'Internal Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2020-11-14T22:31:42.035+00:00"
+                  status:
+                    type: integer
+                    example: 500
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+                  message:
+                    type: array
+                    items:
+                      type: string
+                  path:
+                    type: string
+                    example: "/reservations/{reservation_id}"
 
   /reservations/{reservation_id}/{transaction}:
     put:
@@ -100,26 +197,101 @@ paths:
         '200':
           description: 'Successfully updated reservation.'
         '400':
-          description: 'Bad request'
+          description: 'Bad request.'
           content:
             application/json:
               schema:
-                type: string
-                example: 'IRPU1,IRPU2,IRPU3,IRPU4,IRPU5'
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2020-11-14T22:31:42.035+00:00"
+                  status:
+                    type: integer
+                    example: 400
+                  error:
+                    type: string
+                    example: "Bad Request"
+                  message:
+                    type: array
+                    items:
+                      type: string
+                  path:
+                    type: string
+                    example: "/reservations/{reservation_id}/{transaction}"
         '403':
-          description: 'Forbidden IRPU6 '
+          description: 'Forbidden'
           content:
             application/json:
               schema:
-                type: string
-                example: 'IRPU6'
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2020-11-14T22:31:42.035+00:00"
+                  status:
+                    type: integer
+                    example: 403
+                  error:
+                    type: string
+                    example: "Forbidden Request"
+                  message:
+                    type: array
+                    items:
+                      type: string
+                  path:
+                    type: string
+                    example: "/reservations/{reservation_id}/{transaction}"
         '404':
-          description: 'Reservation not found IRPU7'
+          description: 'Reservation not found'
           content:
             application/json:
               schema:
-                type: string
-                example: 'IRPU7'
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2020-11-14T22:31:42.035+00:00"
+                  status:
+                    type: integer
+                    example: 404
+                  error:
+                    type: string
+                    example: "Not Found"
+                  message:
+                    type: array
+                    items:
+                      type: string
+                  path:
+                    type: string
+                    example: "/reservations/{reservation_id}/{transaction}"
+        '500':
+          description: 'Internal Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2020-11-14T22:31:42.035+00:00"
+                  status:
+                    type: integer
+                    example: 500
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+                  message:
+                    type: array
+                    items:
+                      type: string
+                  path:
+                    type: string
+                    example: "/reservations/{reservation_id}/{transaction}"
 
   /campsite/calendar/dates:
     get:
@@ -147,6 +319,30 @@ paths:
                 items:
                   type: string
                   format: date
+        '500':
+          description: 'Internal Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2020-11-14T22:31:42.035+00:00"
+                  status:
+                    type: integer
+                    example: 500
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+                  message:
+                    type: array
+                    items:
+                      type: string
+                  path:
+                    type: string
+                    example: "/campsite/calendar/dates"
 
 components:
   schemas:
@@ -193,19 +389,43 @@ components:
       type: string
       enum: [ WEEK, MONTH ]
 
-    Error:
+    NewReservationResponse:
+      type: object
+      properties:
+        reservationNumber:
+          type: string
+          pattern: "[A-Z0-9]{8}"
+          example: "AZ123456"
+
+    ErrorResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        status:
+          type: integer
+        error:
+          type: string
+        message:
+          type: array
+          items:
+            type: string
+        path:
+          type: string
+
+    Errorss:
       type: string
       enum: [ IRP1,IRP2,IRP3,IRP4,IRG1,IRPU1,IRPU2,IRPU3,IRPU4,IRPU5,IRPU6,IRPU7 ]
       description: |
-         * `IRP1` - Reservation is for more than 3 days
-         * `IRP2` - Start & End dates are not with in a month
-         * `IRP3` - Cannot reserve desired time range, already reserved by someone else
-         * `IRP4` - Cannot reserve, client already has another existing reservation
-         * `IRG1` - Cannot find a reservation with that ID
-         * `IRPU1` - Reservation is for more than 3 days
-         * `IRPU2` - Start & End dates are not with in a month
-         * `IRPU3` - Can not modify an empty reservation
-         * `IRPU4` - Request body has to be empty to cancel the reservation
-         * `IRPU5` - Nothing to modify
-         * `IRPU6` - Cannot reserve desired time range, already reserved by someone else
-         * `IRPU7` - Cannot find a reservation with that ID to modify or cancel
+        * `IRP1` - Reservation is for more than 3 days
+        * `IRP2` - Start & End dates are not with in a month
+        * `IRP3` - Cannot reserve desired time range, already reserved by someone else
+        * `IRP4` - Cannot reserve, client already has another existing reservation
+        * `IRG1` - Cannot find a reservation with that ID
+        * `IRPU1` - Reservation is for more than 3 days
+        * `IRPU2` - Start & End dates are not with in a month
+        * `IRPU3` - Can not modify an empty reservation
+        * `IRPU4` - Request body has to be empty to cancel the reservation
+        * `IRPU5` - Nothing to modify
+        * `IRPU6` - Cannot reserve desired time range, already reserved by someone else
+        * `IRPU7` - Cannot find a reservation with that ID to modify or cancel
