@@ -43,13 +43,14 @@ class ReservationsController(val reservationRepository: ReservationRepository, v
 
     override fun getReservation(reservationId: String):
             ResponseEntity<Reservation> {
-        val reservationDao = reservationRepository.getReservation(reservationId) ?: throw NotFoundException(
-                object : ArrayList<String>() {
-                    init {
-                        add("Can not find reservation with reservation number: $reservationId")
-                    }
-                }
-        )
+        val reservationDao = reservationRepository.getReservation(reservationId, ReservationStatus.BOOKED)
+                ?: throw NotFoundException(
+                        object : ArrayList<String>() {
+                            init {
+                                add("Can not find an active reservation with reservation number: $reservationId")
+                            }
+                        }
+                )
         return ResponseEntity.ok(reservationMapper.map2dom(reservationDao))
     }
 

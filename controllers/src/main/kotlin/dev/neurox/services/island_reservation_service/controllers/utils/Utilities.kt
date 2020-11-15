@@ -12,7 +12,7 @@ import kotlin.random.Random
 class Utilities(val reservationRepository: ReservationRepository) {
 
     fun isReservationDatesValid(reservation: Reservation): ArrayList<String> {
-        var errors: ArrayList<String> = ArrayList()
+        val errors: ArrayList<String> = ArrayList()
 
         if (reservation.endDate.isBefore(reservation.startDate)) {
             errors.add("Start date of reservation can not be after end date.")
