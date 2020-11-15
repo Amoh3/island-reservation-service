@@ -50,6 +50,7 @@ class ReservationRepository(
             val datesToDelete = getList(oldReservation.startDate, oldReservation.endDate)
             datesToDelete.removeAll(getList(reservation.startDate, reservation.endDate))
 
+            reservation.id = oldReservation.id
             val updatedRes = createReservation(reservation, datesToAdd)
             islandCalendarRepository.deleteReservation(datesToDelete)
 
@@ -60,6 +61,7 @@ class ReservationRepository(
 
     fun cancelReservation(reservation: Reservation): Reservation {
         reservation.status = ReservationStatus.CANCELLED
+        islandCalendarRepository.deleteReservation(getList(reservation.startDate, reservation.endDate))
         return mongoTemplate.save(reservation)
     }
 

@@ -185,8 +185,7 @@ paths:
           name: transaction
           required: true
           schema:
-            type: string
-            enum: [ MODIFY, CANCEL ]
+            $ref: '#/components/schemas/UpdateTransaction'
       requestBody:
         required: false
         content:
@@ -388,6 +387,10 @@ components:
     Range:
       type: string
       enum: [ WEEK, MONTH ]
+
+    UpdateTransaction:
+      type: string
+      enum: [ MODIFY, CANCEL ]
 
     NewReservationResponse:
       type: object

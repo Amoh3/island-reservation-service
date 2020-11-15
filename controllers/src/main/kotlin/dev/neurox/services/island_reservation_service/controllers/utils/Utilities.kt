@@ -17,7 +17,7 @@ class Utilities(val reservationRepository: ReservationRepository) {
         if (reservation.endDate.isBefore(reservation.startDate)) {
             errors.add("Start date of reservation can not be after end date.")
         } else {
-            if (ChronoUnit.DAYS.between(reservation.startDate, reservation.endDate) > 3) {
+            if (ChronoUnit.DAYS.between(reservation.startDate, reservation.endDate) > 2) {
                 errors.add("Reservation can not be for more than 3 days.")
             }
             if (reservation.startDate.isBefore(LocalDate.now().plusDays(1))) {

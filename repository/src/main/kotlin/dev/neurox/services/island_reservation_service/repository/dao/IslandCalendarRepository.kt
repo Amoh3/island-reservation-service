@@ -4,6 +4,7 @@ import dev.neurox.services.island_reservation_service.repository.model.IslandCal
 import org.slf4j.LoggerFactory
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.find
+import org.springframework.data.mongodb.core.findAllAndRemove
 import org.springframework.data.mongodb.core.query.*
 import org.springframework.stereotype.Component
 import java.time.LocalDate
@@ -48,7 +49,7 @@ class IslandCalendarRepository(private val repo: IIslandCalendarRepository, priv
 
     fun deleteReservation(dates: ArrayList<LocalDate>) {
         val query = Query().addCriteria(IslandCalendar::reservedDay inValues dates)
-        mongoTemplate.remove(query)
+        mongoTemplate.findAllAndRemove<IslandCalendar>(query)
         logger.info("deleted reserved days: ${dates.forEach(::print)}")
     }
 
